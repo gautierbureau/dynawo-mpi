@@ -10,6 +10,7 @@ get_filename_component(DYNAWO_INSTALL_DIR ${DYNAWO_INSTALL_DIR} ABSOLUTE)
 set(CMAKE_MODULE_PATH "${DYNAWO_INSTALL_DIR}/share/cmake")
 set(Dynawo_DIR ${DYNAWO_INSTALL_DIR}/share)
 set(CMAKE_PREFIX_PATH ${DYNAWO_INSTALL_DIR}/share/cmake)
+set(CXX11_ENABLED True)
 
 set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Choose the type of build, options are: Debug Release RelWithDebInfo MinSizeRel." FORCE)
 

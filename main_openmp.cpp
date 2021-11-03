@@ -219,7 +219,6 @@ void launchSimuLocale(const std::string& jobsFileName) {
     context->setInputDirectory(prefixJobFile);
     context->setWorkingDirectory(prefixJobFile);
     int rank = omp_get_thread_num();
-    std::cout << "rank " << rank << std::endl;
     (*itJobEntry)->getOutputsEntry()->setOutputsDirectory((*itJobEntry)->getOutputsEntry()->getOutputsDirectory() + std::to_string(rank));
     (*itJobEntry)->getModelerEntry()->setCompileDir((*itJobEntry)->getModelerEntry()->getCompileDir() + std::to_string(rank));
 
