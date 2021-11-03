@@ -100,7 +100,7 @@ set(runtime_LD_LIBRARY_PATH "LD_LIBRARY_PATH=${DYNAWO_INSTALL_DIR}/lib:${Boost_I
 set(runtime_PATH "PATH=$ENV{PATH}")
 
 set(DYNAWOMPI_SOURCES
-  main.cpp
+  main_mpi.cpp
   )
 
 add_executable(dynawo-mpi ${DYNAWOMPI_SOURCES})
@@ -115,4 +115,31 @@ target_link_libraries(dynawo-mpi
   Boost::filesystem
   Boost::program_options
   MPI::MPI_CXX
+  )
+
+find_package(OpenMP)
+
+#set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS} -DWITH_OPENMP")
+
+
+set(DYNAWOOPENMP_SOURCES
+  main_openmp.cpp
+  )
+
+add_executable(dynawo-openmp ${DYNAWOOPENMP_SOURCES})
+
+target_compile_definitions(dynawo-openmp PUBLIC WITH_OPENMP)
+
+target_compile_options(dynawo-openmp PUBLIC ${OpenMP_CXX_FLAGS})
+
+target_link_libraries(dynawo-openmp
+  Dynawo::dynawo_Common
+  Dynawo::dynawo_SimulationCommon
+  Dynawo::dynawo_Simulation
+  Dynawo::dynawo_API_JOB
+  XMLSAXParser${LibXML_LINK_SUFFIX}
+  $<$<NOT:$<BOOL:${USE_LEGACY_IIDM}>>:LibXml2::LibXml2>
+  Boost::filesystem
+  Boost::program_options
+  ${OpenMP_CXX_FLAGS}
   )
