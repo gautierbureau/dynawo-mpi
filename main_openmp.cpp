@@ -99,7 +99,6 @@ static void print(const T& output, DYN::SeverityLevel level = DYN::INFO) {
 }
 
 void launchSimuLocale(const std::string& jobsFileName);
-void launchMultiple(const std::string& jobsFileName, unsigned int nbThreads);
 
 int main(int argc, char ** argv) {
   string jobsFileName = "";
@@ -166,7 +165,10 @@ int main(int argc, char ** argv) {
     if (getEnvVar("DYNAWO_USE_XSD_VALIDATION") != "true")
       cout << "[INFO] xsd validation will not be used" << endl;
 
-    launchMultiple(jobsFileName, nbThreads);
+#pragma omp parallel for schedule(dynamic, 1)
+    for (unsigned int i = 0; i < nbThreads; i++) {
+      launchSimuLocale(jobsFileName);
+    }
   } catch (const DYN::Error& e) {
     std::cerr << "DYN Error: " << e.what() << std::endl;
     return e.type();
@@ -192,13 +194,6 @@ int main(int argc, char ** argv) {
     return -1;
   }
   return 0;
-}
-
-void launchMultiple(const std::string& jobsFileName, unsigned int nbThreads) {
-#pragma omp parallel for schedule(dynamic, 1)
-  for (unsigned int i = 0; i < nbThreads; i++) {
-    launchSimuLocale(jobsFileName);
-  }
 }
 
 void launchSimuLocale(const std::string& jobsFileName) {
