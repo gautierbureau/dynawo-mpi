@@ -22,6 +22,7 @@
 
 #include <boost/program_options.hpp>
 #include <boost/shared_ptr.hpp>
+#include <boost/lexical_cast.hpp>
 
 #include <xml/sax/parser/ParserException.h>
 
@@ -225,8 +226,8 @@ void launchSimuLocale(const std::string& jobsFileName) {
     context->setInputDirectory(prefixJobFile);
     context->setWorkingDirectory(prefixJobFile);
     int rank = MPI::COMM_WORLD.Get_rank();
-    (*itJobEntry)->getOutputsEntry()->setOutputsDirectory((*itJobEntry)->getOutputsEntry()->getOutputsDirectory() + std::to_string(rank));
-    (*itJobEntry)->getModelerEntry()->setCompileDir((*itJobEntry)->getModelerEntry()->getCompileDir() + std::to_string(rank));
+    (*itJobEntry)->getOutputsEntry()->setOutputsDirectory((*itJobEntry)->getOutputsEntry()->getOutputsDirectory() + boost::lexical_cast<std::string>(rank));
+    (*itJobEntry)->getModelerEntry()->setCompileDir((*itJobEntry)->getModelerEntry()->getCompileDir() + boost::lexical_cast<std::string>(rank));
 
     boost::shared_ptr<DYN::Simulation> simulation;
     try {
