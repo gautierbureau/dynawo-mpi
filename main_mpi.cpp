@@ -169,6 +169,11 @@ int main(int argc, char ** argv) {
     if (getEnvVar("DYNAWO_USE_XSD_VALIDATION") != "true")
       cout << "[INFO] xsd validation will not be used" << endl;
 
+    Trace::init();
+    Trace::resetCustomAppenders();
+    Trace::resetPersistantCustomAppenders();
+    Trace::disableLogging();
+
     launchSimuLocale(jobsFileName);
   } catch (const DYN::Error& e) {
     std::cerr << "DYN Error: " << e.what() << std::endl;
@@ -207,7 +212,7 @@ void launchSimuLocale(const std::string& jobsFileName) {
   std::string prefixJobFile = absolute(remove_file_name(jobsFileName));
   if (jobsCollection->begin() == jobsCollection->end())
     throw DYNError(DYN::Error::SIMULATION, NoJobDefined);
-  Trace::init();
+  // Trace::init();
 
   for (job::job_iterator itJobEntry = jobsCollection->begin();
        itJobEntry != jobsCollection->end();
@@ -279,8 +284,8 @@ void launchSimuLocale(const std::string& jobsFileName) {
     }
     simulation->clean();
     print(DYNLog(EndOfJob, (*itJobEntry)->getName()));
-    Trace::resetCustomAppenders();
-    Trace::init();
+    // Trace::resetCustomAppenders();
+    // Trace::init();
     print(DYNLog(JobSuccess, (*itJobEntry)->getName()));
     if ((*itJobEntry)->getOutputsEntry()) {
       std::string outputsDirectory = createAbsolutePath((*itJobEntry)->getOutputsEntry()->getOutputsDirectory(), context->getWorkingDirectory());
