@@ -254,7 +254,7 @@ void launchSimuLocale(const std::string& jobsFileName) {
     } catch (const DYN::Error& err) {
       // Needed as otherwise terminate might crash due to missing staticRef variables
       if (err.key() == DYN::KeyError_t::StateVariableNoReference) {
-        simulation->activateExportIIDM(false);
+        simulation->disableExportIIDM();
         simulation->setLostEquipmentsExportMode(DYN::Simulation::EXPORT_LOSTEQUIPMENTS_NONE);
       }
       print(err.what(), DYN::ERROR);
