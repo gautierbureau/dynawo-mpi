@@ -213,7 +213,6 @@ void launchSimuLocale(const std::string& jobsFileName) {
   std::string prefixJobFile = absolute(remove_file_name(jobsFileName));
   if (jobsCollection->begin() == jobsCollection->end())
     throw DYNError(DYN::Error::SIMULATION, NoJobDefined);
-  // Trace::init();
 
   for (job::job_iterator itJobEntry = jobsCollection->begin();
        itJobEntry != jobsCollection->end();

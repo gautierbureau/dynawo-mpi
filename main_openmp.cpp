@@ -172,7 +172,7 @@ int main(int argc, char ** argv) {
     Trace::disableLogging();
 
 #pragma omp parallel for schedule(dynamic, 1)
-    for (unsigned int i = 0; i < nbThreads; i++) {
+    for (unsigned int i = 0; i < nbThreads; ++i) {
       launchSimuLocale(jobsFileName);
     }
   } catch (const DYN::Error& e) {
